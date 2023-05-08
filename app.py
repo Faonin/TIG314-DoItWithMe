@@ -1,10 +1,14 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello, Word!"
+    return
 
-@app.route("/meetings")
+@app.route("/meetings", methods = ["Get", "Post"])
 def meetings():
-    return {"pic": 1, "Location": "Östermalm", "Time": "13:13", "Description": "Getting drunk with the bois"}
+    if request.method == "Get":
+        return jsonify({"pic": 1, "Location": "Östermalm", "Time": "2023-05-08 13:13", "Description": "Getting drunk with the bois"})
+    
+    if request.method == "Post":
+        return
