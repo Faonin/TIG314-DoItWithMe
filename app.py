@@ -17,7 +17,21 @@ def meeting():
             data = cur.execute("SELECT * FROM meeting")
             return jsonify(data.fetchall())
         except:
-            return "Server side error", 501
+            return "Unable to find the meetings", 501
         
     if request.method == "POST":
-        return
+        try:
+            con = sqlite3.connect("meetings.db")
+            cur = con.cursor()
+            data = cur.execute(f""" INSERT INTO meeting(picture, name, location, time, description)
+            VALUES(        
+            "{request.json[0]}",
+            "{request.json[1]}",
+            "{request.json[2]}",
+            "{request.json[3]}",
+            "{request.json[4]}"
+            )""")
+            con.commit()
+            return request.json
+        except:
+            return "Unable to save the meeting", 502        
