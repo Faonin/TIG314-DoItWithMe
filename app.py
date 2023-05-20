@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import sqlite3
 app = Flask(__name__)
+cors = CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
 
 # Scehma CREATE TABLE meeting(name TINYTEXT, description MEDIUMTEXT, picture int, Location TINYTEXT, time TINYTEXT);
 # One row of data in the db {'Beer with the boies', 'We are gonna get drunk and have fun', '1', 'Andralong', '2023-05-12 18:00'}
@@ -10,6 +13,7 @@ def home():
     return "Test"
 
 @app.route("/meeting", methods = ["Get", "Post"])
+@cross_origin()
 def meeting():
     if request.method == "GET": 
         cur = sqlite3.connect("meetings.db").cursor()
