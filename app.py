@@ -17,11 +17,16 @@ def home():
 def meeting():
     if request.method == "GET": 
         cur = sqlite3.connect("meetings.db").cursor()
-        try:
-            data = cur.execute("SELECT * FROM meeting")
-            return jsonify(data.fetchall())
-        except:
-            return "Unable to find the meetings", 501
+        #try:
+        data = cur.execute("SELECT * FROM meeting")
+        output = []
+        print(data)
+        for i in data.fetchall():
+            output += i
+
+        return jsonify(results = output)
+        #except:
+        return "Unable to find the meetings", 501
         
     if request.method == "POST":
         try:
