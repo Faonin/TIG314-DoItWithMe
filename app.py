@@ -16,17 +16,24 @@ def home():
 def meeting():
     if request.method == "GET": 
         cur = sqlite3.connect("meetings.db").cursor()
-        try:
+        #try:
+        if True:
             data = cur.execute("SELECT * FROM meeting")
             meetingList = []
 
             for i in data.fetchall():
-                meetingList.append(i)
-                if len(meetingList) == 6:
-                    meetingList = []
+                meetingList.append({
+                    "name": i[0],
+                    "description": i[1],
+                    "picture": i[2],
+                    "location": i[3],
+                    "time": i[4],
+                    "day": i[5]}
+                )                
+            
             return jsonify(results = meetingList)
-        except:
-            return "Unable to find the meetings", 501
+        #except:
+        #    return "Unable to find the meetings", 501
         
     if request.method == "POST":
         try:
@@ -44,4 +51,4 @@ def meeting():
             con.commit()
             return request.json
         except:
-            return "Unable to save the meeting", 502        
+            return "Unable to save the meeting", 502
