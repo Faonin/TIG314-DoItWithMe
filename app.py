@@ -22,7 +22,6 @@ def meeting():
 
             for i in data.fetchall():
                 meetingList.append(i)
-                print(meetingList)
                 if len(meetingList) == 6:
                     meetingList = []
             return jsonify(results = meetingList)
