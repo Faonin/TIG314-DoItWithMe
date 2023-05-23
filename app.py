@@ -5,7 +5,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
-#CREATE TABLE meeting(name TINYTEXT, description MEDIUMTEXT, picture int, Location TINYTEXT, time TINYTEXT, day TINYTEXT);
+#CREATE TABLE meeting(name TINYTEXT, description MEDIUMTEXT, picture int, location TINYTEXT, time TINYTEXT, day char(3));
 
 @app.route("/")
 def home():
@@ -16,8 +16,7 @@ def home():
 def meeting():
     if request.method == "GET": 
         cur = sqlite3.connect("meetings.db").cursor()
-        #try:
-        if True:
+        try:
             data = cur.execute("SELECT * FROM meeting")
             meetingList = []
 
@@ -32,8 +31,8 @@ def meeting():
                 )                
             
             return jsonify(results = meetingList)
-        #except:
-        #    return "Unable to find the meetings", 501
+        except:
+            return "Unable to find the meetings", 501
         
     if request.method == "POST":
         try:
